@@ -1,15 +1,34 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <h1>Welcome to the Student Management App</h1>
+    <button @click="fetchStudents">Get Students</button>
+    <ul>
+      <li v-for="student in students" :key="student.student_id">
+        {{ student.fname }} {{ student.lname }} - Score: {{ student.score }}
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
+  data() {
+    return {
+      students: [] // To store the list of students
+    }
+  },
+  methods: {
+    async fetchStudents() {
+      // Assuming you are fetching data from your FastAPI backend
+      try {
+        const response = await fetch('http://localhost:8000/students'); // Adjust the URL to your API
+        const data = await response.json();
+        this.students = data; // Store the students data
+      } catch (error) {
+        console.error('Error fetching students:', error);
+      }
+    }
   }
 }
 </script>

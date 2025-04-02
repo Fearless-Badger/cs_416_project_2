@@ -44,6 +44,7 @@ pure_eval==0.2.3
 pydantic==2.11.1
 pydantic_core==2.33.0
 Pygments==2.19.1
+PyMySQL==1.1.1
 python-dateutil==2.9.0.post0
 pyzmq==26.3.0
 referencing==0.36.2

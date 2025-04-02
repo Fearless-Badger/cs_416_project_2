@@ -1,9 +1,10 @@
 version: "3.9"
 
+# Define all 3 services, and how they run
 services:
   db:
     image: mysql:8.0
-    container_name: cd-416-db
+    container_name: db
     environment: 
       - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
       - MYSQL_DATABASE=${DB_NAME}
@@ -12,12 +13,13 @@ services:
     volumes:
       - ./sql-scripts:/docker-entrypoint-initdb.d
       - mysql_data:/var/lib/mysql
-    # Uncomment 2 lines below to expose 3333 to host
+    # Uncomment 2 lines below to expose port 3333 to host (debugging)
     #ports:
     #  - "3333:3306"
     networks:
       - app_net
   
+  # The entry-point is defined here, not in the backend Dockerfile
   backend:
     build:
       context: ./backend
@@ -34,6 +36,7 @@ services:
     networks:
       - app_net
     
+    # Exposes frontend port 80 to host machine port 8080
   frontend:
     build:
       context: ./frontend
@@ -44,11 +47,19 @@ services:
     depends_on:
       - backend
     networks:
-    - app_net
+      - app_net
+
+# Create a volume for persistent SESSION data storage.
+# Data will be stored for the duration of the DB container LIFE.
+# You can start/stop the container, the volume data will persist.
+# The SESSION data in the volume does not persist through multiple compositions.
+
+# The data scripts in "sql-scripts" will be re-ran everytime you re-compose.
 
 volumes:
   mysql_data:
 
+# Network for containers to communicate on
 networks:
   app_net:
     driver: bridge

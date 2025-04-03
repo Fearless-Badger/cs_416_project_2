@@ -21,7 +21,7 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: fastapi_app
     command: uvicorn main:app --host 0.0.0.0 --port 8000
     # Uncomment below 2 lines to re-map port to host #
@@ -38,7 +38,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
     container_name: vue_app
     ports:
       - "80:80"

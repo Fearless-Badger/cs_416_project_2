@@ -1,0 +1,29 @@
+########## REPORT ##########
+
+Intro - Micah
+Installing Docker - Leo
+Creating dockerhub repo - Luis
+
+Creating web app
+    * Frontend - Lazar
+    * Backend  - Justin
+    * Database - Micah
+
+Collaboration - Lolia
+Conclusion - Mason
+
+Contributions - WRITE AS YOU CONTRIBUTE!!!
+
+
+
+########## SLIDES ##########
+
+01 - Installing docker - Jesse
+02 - dockerhub repositories - Mauricio
+
+03 - CREATING WEB APP
+        * Frontend - Lazar
+        * Backend - Micah
+
+04 - Collaboration - Lolia
+05 - Joel

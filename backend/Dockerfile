@@ -1,6 +1,7 @@
 FROM python:3.9-slim
 RUN python -m venv /venv
 ENV PATH="/venv/bin:$PATH"
+CMD [ "python", "-m", "backend.main"]
 RUN pip install --upgrade pip setuptools
 WORKDIR /backend
 COPY requirements.txt .

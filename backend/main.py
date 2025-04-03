@@ -1,17 +1,51 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
+from contextlib import asynccontextmanager
 import json
 import os
 from sqlalchemy import create_engine
 import pymysql
+from sqlalchemy.orm import sessionmaker
 
+from Functions.models import Base, Student
 
 # Need to map data to ORM
 DATABASE_URL = os.environ.get("DATABASE_URL")
 engine = create_engine(DATABASE_URL)
-
-
+session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 app = FastAPI()
+ 
+## Startup ##
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    Base.metadata.create_all(bind=engine)
+    yield
+    pass # app shutdown sequence
+
+def get_db():
+    db = session_local()
+    try:
+        yield db
+    except Exception as e:
+        print(f"Error in function call 'def (get_db)' : \n{e}")
+    finally:
+        db.close()
+ 
+@app.get("/list_all")
+def read_students(db=Depends(get_db)):
+    students = db.query(Student).all()
+    student_list = []
+    for student in students:
+        student_list.append({
+            "fname" : student.fname,
+            "mname" : student.mname,
+            "lname" : student.lname,
+            "student_id" : student.student_id,
+            "score" : student.score
+        })
+    return json.dumps(student_list)
+
+
 
 items = []
 items.append("apple")

@@ -8,6 +8,4 @@ node
 
 python
 
-MySQL
-
 docker engine

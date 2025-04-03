@@ -22,6 +22,7 @@ async def lifespan(app: FastAPI):
     yield
     pass # app shutdown sequence
 
+# Get a reference to the database
 def get_db():
     db = session_local()
     try:
@@ -43,9 +44,11 @@ def read_students(db=Depends(get_db)):
             "student_id" : student.student_id,
             "score" : student.score
         })
-    return json.dumps(student_list)
+    return student_list
 
 
+
+## DO NOT HIT THE ENDPOINTS BELOW, they are just syntax references ##
 
 items = []
 items.append("apple")

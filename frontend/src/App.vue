@@ -3,8 +3,12 @@
     <h1>Welcome to the Student Management App</h1>
     <button @click="fetchStudents">Get Students</button>
     <ul>
-      <li v-for="student in students" :key="student.student_id">
-        {{ student.fname }} {{ student.lname }} - Score: {{ student.score }}
+      <!--  Give each student a "Card", not just put them all into one list
+            Use Flexbox
+            Style the card
+          -->
+      <li class="no-style-list" v-for="student in students" :key="student.student_id">
+        <p> <strong>Name:</strong> ( {{ student.fname }} {{ student.mname }} {{ student.lname }} )  <strong>Score:</strong> ( {{ student.score }} )   <strong>ID:</strong>  ( {{ student.student_id }} )</p>
       </li>
     </ul>
   </div>
@@ -15,31 +19,37 @@ export default {
   name: 'App',
   data() {
     return {
-      students: [] // To store the list of students
+      students: [] // yea its a list of students
     }
   },
   methods: {
     async fetchStudents() {
-      // Assuming you are fetching data from your FastAPI backend
-      try {
-        const response = await fetch('http://localhost:8000/students'); // Adjust the URL to your API
-        const data = await response.json();
-        this.students = data; // Store the students data
-      } catch (error) {
-        console.error('Error fetching students:', error);
-      }
-    }
+      // Yes, we fetch data from the backend
+  try {
+    const response = await fetch("/api/list_all"); // adjusted URL for configured proxy (nginx.conf)
+    const data = await response.json();       
+    this.students = data; // this is the return value blahhh        
+  } catch (error) {
+    console.error("ERROR (U messed up lil bro): ", error);
+  }
+}
   }
 }
 </script>
 
 <style>
-#app {
+#app { /* Idk what this does */
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+/* Write normal css here */
+
+.no-style-list { 
+  list-style-type: none;
 }
 </style>

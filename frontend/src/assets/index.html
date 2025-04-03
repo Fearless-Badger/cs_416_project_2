@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Course Management System</h1>
+        
+        <!-- Form to input student data -->
+        <form id="student-form">
+            <input type="text" id="first-name" placeholder="First Name" required>
+            <input type="text" id="middle-name" placeholder="Middle Name">
+            <input type="text" id="last-name" placeholder="Last Name" required>
+            <input type="number" id="student-id" placeholder="Student ID" min="1" max="10" required>
+            <input type="number" id="score" placeholder="Score (0-100)" min="0" max="100" required>
+            <button type="submit">Add Student</button>
+        </form>
+
+        <!-- Table to display student data -->
+        <h2>Student List</h2>
+        <table id="student-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Student ID</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Section to display average score -->
+        <h2>Average Score: <span id="average-score">0</span></h2>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -20,5 +20,14 @@ module.exports = defineConfig({
       }
     }
   },
-  transpileDependencies: true
+  transpileDependencies: true,
+  configureWebpack: {
+    plugins: [],
+  },
+  pages: {
+    index: {
+      entry: 'src/main.js',
+      title: 'Class Manager'
+    }
+  }
 })

@@ -1,4 +1,4 @@
-FROM python:3.9-slim
+FROM python:3.10-slim
 RUN python -m venv /venv
 ENV PATH="/venv/bin:$PATH"
 CMD [ "python", "-m", "backend.main" ]

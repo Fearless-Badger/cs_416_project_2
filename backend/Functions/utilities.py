@@ -8,3 +8,6 @@ def validate_stud_full(student: Student_pyd) -> bool:
         0 <= student.score <= 100     and
         1 <= student.student_id <= 10
         )
+
+def validate_id_only(student: Student_pyd)-> bool:
+    return 1 <= student.student_id <= 10

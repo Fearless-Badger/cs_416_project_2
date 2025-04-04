@@ -8,7 +8,7 @@ from pydantic import BaseModel
 
 
 from Functions.alchemy_model import Base, Student_db
-from Functions.utilities import validate_stud_full
+from Functions.utilities import validate_stud_full, validate_id_only
 from Functions.pydantic_model import Student_pyd
 
 
@@ -38,7 +38,7 @@ def get_db():
     finally:
         db.close()
 
-def validate_student_existence(student: Student_pyd, db=Depends(get_db)) -> bool:
+def validate_student_existence(student: Student_pyd, db: Session) -> bool:
     student_exists = db.query(Student_db).filter(Student_db.student_id == student.student_id).first()
     #               query db  =>       where student_id === given pydantic model student_id
     #
@@ -72,12 +72,46 @@ def upload_student(student: Student_pyd, db=Depends(get_db)):
 
     db.add(db_student)
     db.commit()
-    db.refresh(db_student)
 
     return {
         'result' : 'true',
         'message': f'{student.fname} has been added to the class!'
     }
+
+@app.post("/delete_student")
+def delete_student(student: Student_pyd, db=Depends(get_db)):
+
+    if not validate_id_only(student):
+        return {
+            'result' : 'false',
+            'message': 'Invalid data format.'
+        }
+    
+    if not validate_student_existence(student, db):
+        return {
+            'result' : 'false',
+            'message': 'This student does not exist.'
+        }
+    
+    try:    
+        db_student = db.query(Student_db).filter(Student_db.student_id == student.student_id).first()
+        db_student_name = db_student.fname
+        if db_student:
+            db.delete(db_student)
+            db.commit()
+        
+        return {
+            'result' : 'true',
+            'message': f'{db_student_name} has been removed from the class.'
+        }
+    
+    except Exception as e:
+        print(f"Error in /delete_student route: {e}")
+        return {
+        'result' : 'false',
+        'message': 'Error when interacting with database.' 
+        }
+        
     
  
 @app.get("/list_all")

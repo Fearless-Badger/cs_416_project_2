@@ -35,9 +35,6 @@ def get_db():
     db = session_local()
     try:
         yield db
-    # except Exception as e:
-    #     print(f"Error in function call 'def (get_db)' : \n{e}")
-    #     db.close()
     finally:
         db.close()
 
@@ -130,7 +127,3 @@ def read_students(db=Depends(get_db)):
             "score" : student.score
         })
     return student_list
-
-
-
-## DO NOT HIT THE ENDPOINTS BELOW, they are just syntax references ##

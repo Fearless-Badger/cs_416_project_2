@@ -73,7 +73,19 @@
         
 
       </table>
+    </div>
 
+    <!-- FOOTER -->
+     <div class="footer-wrapper">
+      <footer class="app-footer">
+        <p>
+          View the github project on
+          <a href="https://github.com/Fearless-Badger/cs_416_project_2" target="_blank">Github</a>
+          |
+          View the Docker image on
+          <a href="https://hub.docker.com/r/badger54/cs_416_project" target="_blank">Docker Hub</a>
+        </p>
+      </footer>
     </div>
 
     
@@ -171,6 +183,10 @@ export default {
   text-align: center;
   color: #2c3e50 ;
   margin-top: 10px;
+
+  display: flex;
+  flex-direction: column;
+  min-height:100vh;
 }
 
 .student { 
@@ -190,4 +206,21 @@ export default {
   cursor: pointer;
   margin: 10px;
 }
+
+/* Footer Styling */
+.footer-wrapper {
+  margin-top: auto;
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px;
+}
+.app-footer a {
+  color: #2c3e50;
+  text-decoration: none;
+  margin: 0 5px;
+}
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
 </style>

@@ -35,9 +35,6 @@ def get_db():
     db = session_local()
     try:
         yield db
-    # except Exception as e:
-    #     print(f"Error in function call 'def (get_db)' : \n{e}")
-    #     db.close()
     finally:
         db.close()
 
@@ -96,25 +93,3 @@ def read_students(db=Depends(get_db)):
             "score" : student.score
         })
     return student_list
-
-
-
-## DO NOT HIT THE ENDPOINTS BELOW, they are just syntax references ##
-
-items = []
-items.append("apple")
-
-@app.get("/")
-def root():
-    return {"Hello" : "World"} # Json
-
-@app.get("/create")
-def create_item(item: str):
-    items.append(item)
-    return json.dumps(items)
-
-@app.get("/retrieve/{item_id}")
-def retrieve_item(item_id: int):
-    if -1 < item_id < len(items):
-        return json.dumps(items[item_id])
-    raise HTTPException(status_code=404, detail = "Item not found")

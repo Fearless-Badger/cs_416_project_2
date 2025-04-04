@@ -8,7 +8,9 @@
     -->
 
     <div id="section-01">
-      <!-- 2. Display average score of students -->
+      <div class="form-container">
+        <strong>Average Score:</strong> {{averageScore}}
+      </div>
     </div>
 
     <div id="section-02">
@@ -107,6 +109,16 @@ export default {
         score: null,
         student_id: null
       }
+    }
+  },
+  computed: {
+    averageScore() { 
+      if (!this.students.length) return 0;
+      let total = 0;
+      for(let student of this.students) {
+        total += student.score;
+      }
+      return (total / this.students.length).toFixed(2);
     }
   },
   methods: {

@@ -110,6 +110,27 @@ export default {
     }
   },
   methods: {
+    async submitEdit() {
+      try{
+        const response = await fetch('/api/update_student', {
+          method : "POST",
+          headers: {'Content-Type' : 'application/json'},
+          body: JSON.stringify(this.selectedStudent)
+        });
+
+        const result = await response.json();
+        alert(result.message);
+
+        if (result.result) {
+          this.closeModal();
+          this.fetchStudents();
+        }
+
+      } catch (error) {
+        console.error('Update error: ', error);
+        alert('Something went wrong while updating.')
+      }
+    },
     updateStudent(student) {
       this.selectedStudent = { ...student }
       this.showEditModal = true

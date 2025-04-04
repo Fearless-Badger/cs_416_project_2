@@ -1,16 +1,58 @@
 <template>
   <div id="app">
+    
     <h1>Welcome to the Student Management App</h1>
-    <button @click="fetchStudents">Get Students</button>
-    <ul>
-      <!--  Give each student a "Card", not just put them all into one list
-            Use Flexbox
-            Style the card
-          -->
-      <li class="no-style-list" v-for="student in students" :key="student.student_id">
-        <p> <strong>Name:</strong> ( {{ student.fname }} {{ student.mname }} {{ student.lname }} )  <strong>Score:</strong> ( {{ student.score }} )   <strong>ID:</strong>  ( {{ student.student_id }} )</p>
-      </li>
-    </ul>
+
+    <!-- MUST DO 
+     1. Display students on website, in ascending order by name
+     2. Display average score of students
+     3. Input student name, score, and ID => POST, update database
+    -->
+    
+    <div id="section-01">
+      <!-- 2. Display average score of students -->
+    </div>
+    
+    <div id="section-02">
+      <!-- 
+      1. Display students on website, in ascending order by name
+      In this section, solve issue 1&3
+      3. Input student name, score, and ID => POST, update database
+      -->
+      <button @click="fetchStudents">Get Students</button>
+
+      <table class="students-container">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Last Name</th>
+            <th>Score</th>
+            <th>Student-id</th>
+          </tr>
+        </thead>
+
+        <tbody class="student-table" v-for="student in students" :key="student.student_id">
+
+          <tr class="student-card">
+            <td>{{ student.fname }}</td>
+            <td>{{ student.mname }}</td>
+            <td>{{ student.lname }}</td>
+            <td>{{ student.score }}</td>
+            <td>{{ student.student_id }}</td>
+          </tr>
+          
+        </tbody>
+        
+
+      </table>
+
+    </div>
+
+    
+
+
+    
   </div>
 </template>
 
@@ -38,7 +80,7 @@ export default {
 </script>
 
 <style>
-#app { /* Idk what this does */
+#app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -47,9 +89,11 @@ export default {
   margin-top: 60px;
 }
 
-/* Write normal css here */
-
-.no-style-list { 
+.student { 
   list-style-type: none;
+}
+
+.students-container{
+  border: 2px solid black;
 }
 </style>

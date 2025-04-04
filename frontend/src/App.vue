@@ -7,7 +7,7 @@
 
     <!-- Average Score -->
     <div id="section-01" v-if="students.length">
-      <h2 class="average-score">Average Score: {{ averageScore.toFixed(2) }}</h2>
+      <h2 class="average-score">Average Score: {{ averageScore }}</h2>
 
     </div>
 

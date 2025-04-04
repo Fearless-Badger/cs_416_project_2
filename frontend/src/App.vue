@@ -61,16 +61,16 @@ export default {
   name: 'App',
   data() {
     return {
-      students: [] // yea its a list of students
+      students: []
     }
   },
   methods: {
     async fetchStudents() {
-      // Yes, we fetch data from the backend
+      // fetch data from the backend
   try {
     const response = await fetch("/api/list_all"); // adjusted URL for configured proxy (nginx.conf)
     const data = await response.json();       
-    this.students = data; // this is the return value blahhh        
+    this.students = data;     
   } catch (error) {
     console.error("ERROR (U messed up lil bro): ", error);
   }
@@ -80,13 +80,20 @@ export default {
 </script>
 
 <style>
+
+/* Alternate box model (box model suxx) */
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: black;
+  margin-top: 10px;
+  
 }
 
 .student { 

@@ -1,27 +1,28 @@
 <template>
   <div id="app">
-    
+
     <h1>Class Management Interface</h1>
 
     <!-- MUST DO 
-     1. Display students on website, in ascending order by name
      2. Display average score of students
-     3. Input student name, score, and ID => POST, update database
     -->
-    
+
     <div id="section-01">
       <!-- 2. Display average score of students -->
     </div>
-    
-    <div id="section-02">
-      <!-- 
-      1. Display students on website, in ascending order by name
-      In this section, solve issue 1&3
-      3. Input student name, score, and ID => POST, update database
-      -->
-      <button class="list-button button" @click="fetchStudents">Get Students</button>
 
-      <button class="crete-button button" @click="Add_student">Add Student</button>
+    <div id="section-02">
+      <div class="form-container">
+        <input v-model="newStudent.fname" placeholder="First Name" />
+        <input v-model="newStudent.mname" placeholder="Middle Name" />
+        <input v-model="newStudent.lname" placeholder="Last Name" />
+        <input v-model.number="newStudent.score" placeholder="Score" type="number" />
+        <input v-model.number="newStudent.student_id" placeholder="Student ID" type="number" />
+      </div>
+
+      <button class="list-button button" @click="fetchStudents">Get Students</button>
+      <button class="create-button button" @click="addStudent">Add Student</button>
+
 
       <table class="students-container">
         <thead>
@@ -43,35 +44,51 @@
             <td>{{ student.score }}</td>
             <td>{{ student.student_id }}</td>
 
-            <td><button @click="updateStudent({
-              'fname' : student.fname,
-              'mname' : student.mname,
-              'lname' : student.lname,
-              'score' : student.score,
-              'student_id' : student.student_id
-            })"
-            >Update</button></td>
-
-
-            <td><button @click="deleteStudent({'student_id' : student.student_id})">Delete</button></td>
-
-            
+            <td>
+              <button @click="updateStudent(student)">Update</button>
+            </td>
+            <td>
+              <button @click="deleteStudent({ 'student_id': student.student_id })">Delete</button>
+            </td>
 
           </tr>
 
-
-          
         </tbody>
-        
+
 
       </table>
 
+      <div v-if="showEditModal" class="modal-overlay">
+        <div class="modal-content">
+
+          <h2>Edit student</h2>
+
+          <label>First Name:</label>
+          <input v-model="selectedStudent.fname" />
+
+          <label>Middle Name:</label>
+          <input v-model="selectedStudent.mname" />
+
+          <label>Last Name:</label>
+          <input v-model="selectedStudent.lname" />
+
+          <label>Score:</label>
+          <input type="number" v-model.number="selectedStudent.score" />
+
+          <div class="modal-actions">
+            <button @click="submitEdit">Submit</button>
+            <button @click="closeModal">Cancel</button>
+          </div>
+        </div>
+
+      </div>
+
     </div>
 
-    
 
 
-    
+
+
   </div>
 </template>
 
@@ -80,59 +97,111 @@ export default {
   name: 'App',
   data() {
     return {
-      students: []
+      showEditModal: false,
+      selectedStudent: null,
+      students: [],
+      newStudent: {
+        fname: '',
+        mname: '',
+        lname: '',
+        score: null,
+        student_id: null
+      }
     }
   },
   methods: {
-      async fetchStudents() {
-    // fetch data from the backend
-        try {
-          const response = await fetch("/api/list_all"); // adjusted URL for configured proxy (nginx.conf)
-          const data = await response.json();       
-          this.students = data;     
-        } catch (error) {
-          console.error("ERROR (U messed up lil bro): ", error);
+    async submitEdit() {
+      try{
+        const response = await fetch('/api/update_student', {
+          method : "POST",
+          headers: {'Content-Type' : 'application/json'},
+          body: JSON.stringify(this.selectedStudent)
+        });
+
+        const result = await response.json();
+        alert(result.message);
+
+        if (result.result) {
+          this.closeModal();
+          this.fetchStudents();
         }
-      },
-      async deleteStudent(id_json){
-        try {
-          const response = await fetch ('/api/delete_student', {
+
+      } catch (error) {
+        console.error('Update error: ', error);
+        alert('Something went wrong while updating.')
+      }
+    },
+    updateStudent(student) {
+      this.selectedStudent = { ...student }
+      this.showEditModal = true
+    },
+    closeModal() {
+      this.showEditModal = false
+      this.selectedStudent = null
+    },
+    async fetchStudents() {
+      try {
+        const response = await fetch("/api/list_all");
+        const data = await response.json();
+        this.students = data;
+      } catch (error) {
+        console.error("ERROR (U messed up lil bro): ", error);
+      }
+    },
+    async deleteStudent(id_json) {
+      try {
+        const response = await fetch('/api/delete_student', {
           method: 'POST',
           headers: {
-            'Content-Type' : 'application/json'
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(id_json) })
-          let message;
-          if (response.ok){
-            message = "Student Removed"
-          } else {
-            message = "Not ok..."
-          }
-          prompt(message)
-        } catch (shameful_mistake) {
-          console.error("ERROR (Just prompt the AI lil bro): ", shameful_mistake)
+          body: JSON.stringify(id_json)
+        });
+        let message;
+        if (response.ok) {
+          message = "Student Removed";
+          this.fetchStudents();
+        } else {
+          message = "Not ok...";
         }
-      },
-      /*
-      Need to complete addStudent.
-       
-      Will return a 
+        alert(message);
+      } catch (shameful_mistake) {
+        console.error("ERROR (Just prompt the AI lil bro): ", shameful_mistake);
+      }
+    },
+    async addStudent() {
+      try {
+        const response = await fetch('/api/add_student', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.newStudent),
+        });
 
-      {'result' : '<bool>',
-       'message' : '<str>'}
-      
-      where <bool> is true/false, and <str> is a message
-      giving user feedback to be displayed
-       */
-      async addStudent(){}, 
+        const result = await response.json();
+
+        alert(result.message);
+
+        if (result.result) {
+          this.fetchStudents(); // Refresh the list
+          this.newStudent = { fname: '', mname: '', lname: '', score: null, student_id: null }; // Clear form
+        }
+
+      } catch (error) {
+        console.error("Add Student Error:", error);
+        alert("Something went wrong. Please try again.");
+      }
     }
   }
+}
 </script>
 
 <style>
-
 /* Alternate box model (box model suxx) */
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }
 
@@ -141,19 +210,19 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50 ;
+  color: #2c3e50;
   margin-top: 10px;
 }
 
-.student { 
+.student {
   list-style-type: none;
 }
 
-.students-container{
+.students-container {
   border: 2px solid black;
 }
 
-.button{
+.button {
   color: #2c3e50;
   background-color: lightgreen;
   padding: 5px 10px;

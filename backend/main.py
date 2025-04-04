@@ -49,20 +49,58 @@ def validate_student_existence(student: Student_pyd, db: Session) -> bool:
 
 ##############################################
 
+@app.post("/update_student")
+def update_student(student: Student_pyd, db=Depends(get_db)):
+
+    if not validate_stud_full(student):
+        return {'result' : False,
+                'message': 'Invalid data format.'}
+    
+
+    if not validate_student_existence(student, db):
+        return {
+            'result' : False,
+            'message': f'{student.fname} is not listed.'
+        }
+    
+    db_student = db.query(Student_db).filter(Student_db.student_id == student.student_id).first()
+
+    if not db_student:
+        return {
+            'result' : False,
+            'message': '{student.fname} is not listed.'
+        }
+    
+    # Don't create a new student, update the existing one
+    db_student.fname = student.fname
+    db_student.mname = student.mname
+    db_student.lname = student.lname
+    db_student.score = student.score
+
+    db.commit()
+    db.refresh(db_student)
+
+    return {
+        'result' : True,
+        'message': f'{student.fname} was updated successfully!'
+    }
+
+
+
 @app.post("/add_student")
 def upload_student(student: Student_pyd, db=Depends(get_db)):
 
     valid_format = validate_stud_full(student)
 
     if not valid_format:
-        return {'result' : 'false',
+        return {'result' : False,
                 'message': 'Invalid data format.'}
     
     student_exists = validate_student_existence(student, db)
 
     if student_exists:
         return {
-            'result' : 'false',
+            'result' : False,
             'message': 'That student ID is taken!'
         }
     
@@ -74,7 +112,7 @@ def upload_student(student: Student_pyd, db=Depends(get_db)):
     db.commit()
 
     return {
-        'result' : 'true',
+        'result' : True,
         'message': f'{student.fname} has been added to the class!'
     }
 
@@ -83,13 +121,13 @@ def delete_student(student: Student_pyd, db=Depends(get_db)):
 
     if not validate_id_only(student):
         return {
-            'result' : 'false',
+            'result' : False,
             'message': 'Invalid data format.'
         }
     
     if not validate_student_existence(student, db):
         return {
-            'result' : 'false',
+            'result' : False,
             'message': 'This student does not exist.'
         }
     
@@ -101,14 +139,14 @@ def delete_student(student: Student_pyd, db=Depends(get_db)):
             db.commit()
         
         return {
-            'result' : 'true',
+            'result' : True,
             'message': f'{db_student_name} has been removed from the class.'
         }
     
     except Exception as e:
         print(f"Error in /delete_student route: {e}")
         return {
-        'result' : 'false',
+        'result' : False,
         'message': 'Error when interacting with database.' 
         }
         

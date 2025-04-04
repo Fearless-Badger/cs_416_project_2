@@ -19,11 +19,11 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     container_name: fastapi_app
     command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
     ports:
-      - "8080:8000"
+      - "8000:8000"
     environment:
       - DATABASE_URL=mysql+pymysql://${DB_USER}:${DB_PASSWORD}@db:3306/${DB_NAME}
     depends_on:
@@ -33,20 +33,6 @@ services:
     volumes:
       - ./backend:/backend
 
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.dev
-    container_name: vue_app
-    ports:
-      - "80:8080"
-    depends_on:
-      - backend
-    networks:
-      - app_net
-    volumes:
-      - ./frontend:/app
-    
 volumes:
   mysql_data:
 

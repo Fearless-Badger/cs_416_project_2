@@ -8,7 +8,17 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   devServer: {
-    proxy: "http://fastapi_app:8000"
+    host: '0.0.0.0',
+    port: 8080,
+    proxy: {
+      '^/api': {
+        target: 'http://localhost:8000/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': ''
+        }
+      }
+    }
   },
   transpileDependencies: true
 })

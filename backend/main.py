@@ -55,14 +55,14 @@ def upload_student(student: Student_pyd, db=Depends(get_db)):
     valid_format = validate_stud_full(student)
 
     if not valid_format:
-        return {'result' : 'false',
+        return {'result' : 'False',
                 'message': 'Invalid data format.'}
     
     student_exists = validate_student_existence(student, db)
 
     if student_exists:
         return {
-            'result' : 'false',
+            'result' : 'False',
             'message': 'That student ID is taken!'
         }
     
@@ -74,7 +74,7 @@ def upload_student(student: Student_pyd, db=Depends(get_db)):
     db.commit()
 
     return {
-        'result' : 'true',
+        'result' : 'True',
         'message': f'{student.fname} has been added to the class!'
     }
 

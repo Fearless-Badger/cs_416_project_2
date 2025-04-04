@@ -19,9 +19,17 @@
       In this section, solve issue 1&3
       3. Input student name, score, and ID => POST, update database
       -->
-      <button class="list-button button" @click="fetchStudents">Get Students</button>
+      <div class="form-container">
+  <input v-model="newStudent.fname" placeholder="First Name" />
+  <input v-model="newStudent.mname" placeholder="Middle Name" />
+  <input v-model="newStudent.lname" placeholder="Last Name" />
+  <input v-model.number="newStudent.score" placeholder="Score" type="number" />
+  <input v-model.number="newStudent.student_id" placeholder="Student ID" type="number" />
+</div>
 
-      <button class="crete-button button" @click="Add_student">Add Student</button>
+<button class="list-button button" @click="fetchStudents">Get Students</button>
+<button class="create-button button" @click="addStudent">Add Student</button>
+
 
       <table class="students-container">
         <thead>
@@ -80,53 +88,73 @@ export default {
   name: 'App',
   data() {
     return {
-      students: []
+      students: [],
+      newStudent: {
+        fname: '',
+        mname: '',
+        lname: '',
+        score: null,
+        student_id: null
+      }
     }
   },
   methods: {
-      async fetchStudents() {
-    // fetch data from the backend
-        try {
-          const response = await fetch("/api/list_all"); // adjusted URL for configured proxy (nginx.conf)
-          const data = await response.json();       
-          this.students = data;     
-        } catch (error) {
-          console.error("ERROR (U messed up lil bro): ", error);
-        }
-      },
-      async deleteStudent(id_json){
-        try {
-          const response = await fetch ('/api/delete_student', {
+    async fetchStudents() {
+      try {
+        const response = await fetch("/api/list_all");
+        const data = await response.json();
+        this.students = data;
+      } catch (error) {
+        console.error("ERROR (U messed up lil bro): ", error);
+      }
+    },
+    async deleteStudent(id_json) {
+      try {
+        const response = await fetch('/api/delete_student', {
           method: 'POST',
           headers: {
-            'Content-Type' : 'application/json'
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(id_json) })
-          let message;
-          if (response.ok){
-            message = "Student Removed"
-          } else {
-            message = "Not ok..."
-          }
-          prompt(message)
-        } catch (shameful_mistake) {
-          console.error("ERROR (Just prompt the AI lil bro): ", shameful_mistake)
+          body: JSON.stringify(id_json)
+        });
+        let message;
+        if (response.ok) {
+          message = "Student Removed";
+          this.fetchStudents();
+        } else {
+          message = "Not ok...";
         }
-      },
-      /*
-      Need to complete addStudent.
-       
-      Will return a 
+        prompt(message);
+      } catch (shameful_mistake) {
+        console.error("ERROR (Just prompt the AI lil bro): ", shameful_mistake);
+      }
+    },
+    async addStudent() {
+      try {
+        const response = await fetch('/api/add_student', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(this.newStudent),
+        });
 
-      {'result' : '<bool>',
-       'message' : '<str>'}
-      
-      where <bool> is true/false, and <str> is a message
-      giving user feedback to be displayed
-       */
-      async addStudent(){}, 
+        const result = await response.json();
+
+        alert(result.message);
+
+        if (result.result) {
+          this.fetchStudents(); // Refresh the list
+          this.newStudent = { fname: '', mname: '', lname: '', score: null, student_id: null }; // Clear form
+        }
+
+      } catch (error) {
+        console.error("Add Student Error:", error);
+        alert("Something went wrong. Please try again.");
+      }
     }
   }
+}
 </script>
 
 <style>

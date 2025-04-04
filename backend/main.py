@@ -156,6 +156,7 @@ def delete_student(student: Student_pyd, db=Depends(get_db)):
 def read_students(db=Depends(get_db)):
     students = db.query(Student_db).all()
     student_list = []
+
     for student in students:
         student_list.append({
             "fname" : student.fname,
@@ -164,4 +165,5 @@ def read_students(db=Depends(get_db)):
             "student_id" : student.student_id,
             "score" : student.score
         })
+    
     return student_list

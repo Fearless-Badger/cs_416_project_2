@@ -1,10 +1,10 @@
 <template>
-  <div id="app">
+    <div id="app">
 
     <h1>Class Management Interface</h1>
 
     <!-- MUST DO 
-     2. Display average score of students
+    2. Display average score of students
     -->
 
     <div id="section-01">
@@ -18,10 +18,8 @@
         <input v-model="newStudent.lname" placeholder="Last Name" />
         <input v-model.number="newStudent.score" placeholder="Score" type="number" />
         <input v-model.number="newStudent.student_id" placeholder="Student ID" type="number" />
+        <button class="create-button button" @click="addStudent">Add Student</button>
       </div>
-
-      <button class="list-button button" @click="fetchStudents">Get Students</button>
-      <button class="create-button button" @click="addStudent">Add Student</button>
 
 
       <table class="students-container">
@@ -32,6 +30,7 @@
             <th>Last Name</th>
             <th>Score</th>
             <th>Student-id</th>
+            <th><button class="list-button button" @click="fetchStudents">Refresh Listing</button></th>
           </tr>
         </thead>
 
@@ -45,11 +44,10 @@
             <td>{{ student.student_id }}</td>
 
             <td>
-              <button @click="updateStudent(student)">Update</button>
+              <button class="update-button button" @click="updateStudent(student)">Update</button>
+              <button class="delete-button button" @click="deleteStudent({ 'student_id': student.student_id })">Delete</button>
             </td>
-            <td>
-              <button @click="deleteStudent({ 'student_id': student.student_id })">Delete</button>
-            </td>
+            
 
           </tr>
 
@@ -84,7 +82,6 @@
       </div>
 
     </div>
-
 
 
 
@@ -218,6 +215,12 @@ export default {
   list-style-type: none;
 }
 
+.update-button,
+.delete-button {
+  margin: 4px 8px;
+}
+
+
 .students-container {
   border: 2px solid black;
 }
@@ -231,4 +234,14 @@ export default {
   cursor: pointer;
   margin: 10px;
 }
+
+.delete-button{
+  background-color: rgb(201, 89, 89);
+  color: white;
+}
+
+.list-button {
+  margin-left: 16px;
+}
+
 </style>

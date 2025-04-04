@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 
 from Functions.models import Base, Student
 
-# Need to map data to ORM
+# ORM
 DATABASE_URL = os.environ.get("DATABASE_URL")
 engine = create_engine(DATABASE_URL)
 session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)

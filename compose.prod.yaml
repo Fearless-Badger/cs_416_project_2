@@ -11,9 +11,6 @@ services:
     volumes:
       - ./sql-scripts:/docker-entrypoint-initdb.d
       - mysql_data:/var/lib/mysql
-    # Uncomment 2 lines below to expose port 3333 to host (debugging)
-    #ports:
-      #- "3333:3306"
     networks:
       - app_net
   
@@ -24,9 +21,6 @@ services:
       dockerfile: Dockerfile
     container_name: fastapi_app
     command: uvicorn main:app --host 0.0.0.0 --port 8000
-    # Uncomment below 2 lines to re-map port to host #
-    #ports:
-      #- "8000:8000"
     environment:
       - DATABASE_URL=mysql+pymysql://${DB_USER}:${DB_PASSWORD}@db:3306/${DB_NAME}
     depends_on:
@@ -34,7 +28,7 @@ services:
     networks:
       - app_net
     
-    # Exposes frontend port 80 to host machine port 8080
+  # Exposes frontend port 80 to host machine port 8080
   frontend:
     build:
       context: ./frontend

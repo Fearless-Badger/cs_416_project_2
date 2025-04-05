@@ -2,9 +2,13 @@
   <div id="app">
     <h1>📚 Class Management Interface</h1>
 
+
+    <h1>Class Management Interface</h1>
+
     <!-- Average Score -->
     <div id="section-01" v-if="students.length">
-      <h2 class="average-score">Average Score: {{ averageScore.toFixed(2) }}</h2>
+      <h2 class="average-score">Average Score: {{ averageScore }}</h2>
+
     </div>
 
     <!-- Student Input & Table -->
@@ -89,17 +93,15 @@ export default {
   },
   computed: {
     sortedStudents() {
-      return [...this.students].sort((a, b) => { 
-      if (a.score !== b.score) {
-	return b.score - a.score;
-	}
-	return a.fname.localeCompare(b.fname);
-    });
-  },
-    averageScore() {
-      if (this.students.length === 0) return 0
-      const total = this.students.reduce((sum, s) => sum + s.score, 0)
-      return total / this.students.length
+      return [...this.students].sort((a, b) => a.fname.localeCompare(b.fname))
+    },
+    averageScore() { 
+      if (!this.students.length) return 0;
+      let total = 0;
+      for(let student of this.students) {
+        total += student.score;
+      }
+      return (total / this.students.length).toFixed(2);
     }
   },
   methods: {
@@ -163,7 +165,7 @@ export default {
         });
         const result = await response.json();
         alert(result.message);
-        if (result.result === "True") {
+        if (result.result) {
           this.closeModal();
           this.fetchStudents();
         }

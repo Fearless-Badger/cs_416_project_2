@@ -68,13 +68,6 @@
           </div>
         </div>
       </div>
-<<<<<<< HEAD
-    </div>
-
-
-
-
-=======
     </main>
 
     <!-- FOOTER -->
@@ -87,7 +80,6 @@
         <a href="https://hub.docker.com/r/badger54/cs_416_project" target="_blank">Docker Hub</a>
       </p>
     </footer>
->>>>>>> main
   </div>
 </template>
 
@@ -324,7 +316,6 @@ h1 {
   margin-top: 15px;
 }
 
-<<<<<<< HEAD
 .delete-button{
   background-color: rgb(201, 89, 89);
   color: white;
@@ -334,8 +325,6 @@ h1 {
   margin-left: 16px;
 }
 
-</style>
-=======
 /* Footer Styling */
 .app-footer {
   background-color: #2c3e50;
@@ -353,4 +342,3 @@ h1 {
 }
 
 </style>
->>>>>>> main

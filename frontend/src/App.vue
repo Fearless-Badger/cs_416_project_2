@@ -73,10 +73,10 @@
     <!-- FOOTER -->
     <footer class="app-footer">
       <p>
-        View the github project on
+        View the project on
         <a href="https://github.com/Fearless-Badger/cs_416_project_2" target="_blank">Github</a>
         |
-        View the Docker image on
+        View the frontend Image on
         <a href="https://hub.docker.com/r/badger54/cs_416_project" target="_blank">Docker Hub</a>
       </p>
     </footer>
@@ -140,6 +140,7 @@ export default {
           this.fetchStudents();
           this.newStudent = { fname: '', mname: '', lname: '', score: null, student_id: null };
         }
+        this.fetchStudents()
       } catch (error) {
         console.error("Add error:", error);
         alert("Something went wrong. Try again.");
@@ -333,9 +334,10 @@ h1 {
   text-align: center;
 }
 .app-footer a {
-  color: #0000FF;
+  color: rgb(112, 155, 158);
   text-decoration: none;
   margin: 0 5px;
+  
 }
 .app-footer a:hover {
   text-decoration: underline;

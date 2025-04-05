@@ -63,10 +63,10 @@ Namespace for docker-hub repositories starts with your username, and ends with t
 You will get permission denied if you try to use my namespace, or if you are not logged in to dockerhub through the CLI.
 
 1. Build the image, with YOUR namespace, not with mine. "badger54" is my namespace, you must use your own.
-    - Something like ```docker build -t <username>/cs_416_project:<first_last> .```
+    - Something like ```docker build -t badger54/cs_416_project:<first_last> .```
 
 2. Login to Dockerhub
     - ```docker login -u <username>```
 
 3. Push to dockerhub repository
-    - ```docker push <username>/cs_416_project:<first_last>```
+    - ```docker push badger54/cs_416_project:<first_last>```

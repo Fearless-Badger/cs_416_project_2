@@ -155,15 +155,15 @@ def delete_student(student: Student_pyd, db=Depends(get_db)):
 @app.get("/list_all")
 def read_students(db=Depends(get_db)):
     students = db.query(Student_db).all()
-    student_list = []
-
-    for student in students:
-        student_list.append({
-            "fname" : student.fname,
-            "mname" : student.mname,
-            "lname" : student.lname,
-            "student_id" : student.student_id,
-            "score" : student.score
-        })
-    
-    return student_list
+    student_list = sorted(students, key=lambda student:
+			 (-student.score, student.fname))
+    return [
+    {
+         "fname" : student.fname,
+         "mname" : student.mname,
+         "lname" : student.lname,
+         "student_id" : student.student_id,
+         "score" : student.score
+     }
+     for student in student_list
+   ]

@@ -1,10 +1,12 @@
 <template>
   <div id="app">
-    <h1>📚 Class Management Interface</h1>
+    <main class="main-content">
+      <h1>📚 Class Management Interface</h1>
 
     <!-- Average Score -->
     <div id="section-01" v-if="students.length">
-      <h2 class="average-score">Average Score: {{ averageScore.toFixed(2) }}</h2>
+      <h2 class="average-score">Average Score: {{ averageScore }}</h2>
+
     </div>
 
     <!-- Student Input & Table -->
@@ -18,40 +20,39 @@
         <button class="create-button button" @click="addStudent">Add Student</button>
       </div>
 
-      <div class="button-group">
-        <button class="list-button button" @click="fetchStudents">Refresh Students</button>
-        <button class="create-button button" @click="addStudent">Add Student</button>
-      </div>
+        <div class="button-group">
+          <button class="list-button button" @click="fetchStudents">Refresh Students</button>
+        </div>
 
-      <table class="students-container" v-if="students.length">
-        <thead>
-          <tr>
-            <th>First</th>
-            <th>Middle</th>
-            <th>Last</th>
-            <th>Score</th>
-            <th>ID</th>
-            <th colspan="2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="student in sortedStudents" :key="student.student_id">
-            <td>{{ student.fname }}</td>
-            <td>{{ student.mname }}</td>
-            <td>{{ student.lname }}</td>
-            <td>{{ student.score }}</td>
-            <td>{{ student.student_id }}</td>
-            <td><button @click="updateStudent(student)">✏️</button></td>
-            <td><button class="delete-button" @click="deleteStudent({ student_id: student.student_id })">🗑️</button></td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="students-container" v-if="students.length">
+          <thead>
+            <tr>
+              <th>First</th>
+              <th>Middle</th>
+              <th>Last</th>
+              <th>Score</th>
+              <th>ID</th>
+              <th colspan="2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="student in sortedStudents" :key="student.student_id">
+              <td>{{ student.fname }}</td>
+              <td>{{ student.mname }}</td>
+              <td>{{ student.lname }}</td>
+              <td>{{ student.score }}</td>
+              <td>{{ student.student_id }}</td>
+              <td><button @click="updateStudent(student)">✏️</button></td>
+              <td><button class="delete-button" @click="deleteStudent({ student_id: student.student_id })">🗑️</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <!-- Edit Modal -->
       <div v-if="showEditModal" class="modal-overlay">
         <div class="modal-content">
           <h2>Edit Student</h2>
-
           <label>First Name:</label>
           <input v-model="selectedStudent.fname" />
           <label>Middle Name:</label>
@@ -67,11 +68,26 @@
           </div>
         </div>
       </div>
+<<<<<<< HEAD
     </div>
 
 
 
 
+=======
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <p>
+        View the github project on
+        <a href="https://github.com/Fearless-Badger/cs_416_project_2" target="_blank">Github</a>
+        |
+        View the Docker image on
+        <a href="https://hub.docker.com/r/badger54/cs_416_project" target="_blank">Docker Hub</a>
+      </p>
+    </footer>
+>>>>>>> main
   </div>
 </template>
 
@@ -94,12 +110,20 @@ export default {
   },
   computed: {
     sortedStudents() {
-      return [...this.students].sort((a, b) => a.fname.localeCompare(b.fname))
-    },
-    averageScore() {
-      if (this.students.length === 0) return 0
-      const total = this.students.reduce((sum, s) => sum + s.score, 0)
-      return total / this.students.length
+      return [...this.students].sort((a, b) => { 
+      if (a.score !== b.score) {
+	return b.score - a.score;
+	}
+	return a.fname.localeCompare(b.fname);
+    });
+  },
+    averageScore() { 
+      if (!this.students.length) return 0;
+      let total = 0;
+      for(let student of this.students) {
+        total += student.score;
+      }
+      return (total / this.students.length).toFixed(2);
     }
   },
   methods: {
@@ -163,7 +187,7 @@ export default {
         });
         const result = await response.json();
         alert(result.message);
-        if (result.result === "True") {
+        if (result.result) {
           this.closeModal();
           this.fetchStudents();
         }
@@ -191,10 +215,15 @@ body {
 }
 
 #app {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
   text-align: center;
-  color: #333;
-  margin: 20px;
 }
 
 h1 {
@@ -295,6 +324,7 @@ h1 {
   margin-top: 15px;
 }
 
+<<<<<<< HEAD
 .delete-button{
   background-color: rgb(201, 89, 89);
   color: white;
@@ -305,3 +335,22 @@ h1 {
 }
 
 </style>
+=======
+/* Footer Styling */
+.app-footer {
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+.app-footer a {
+  color: #0000FF;
+  text-decoration: none;
+  margin: 0 5px;
+}
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+</style>
+>>>>>>> main

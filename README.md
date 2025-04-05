@@ -72,3 +72,4 @@ Verify that you correctly login, using YOUR Dockerhub username and password.
     - ```docker push badger54/cs_416_project:<first_last>```
     
 If successful, verify that your push appears in the repository. Visit 'My Profile' on Dockerhub and check your 'Contributed' tab to see repositories that are not yours. Your push will be under 'Tags'.
+

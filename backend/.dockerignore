@@ -1,4 +1,6 @@
 .env
+README.md
+.devcontainer
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

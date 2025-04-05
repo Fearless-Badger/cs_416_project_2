@@ -9,19 +9,19 @@
 
     </div>
 
-      <!-- Student Input & Table -->
-      <div id="section-02">
-        <div class="form-container">
-          <input v-model="newStudent.fname" placeholder="First Name" />
-          <input v-model="newStudent.mname" placeholder="Middle Name" />
-          <input v-model="newStudent.lname" placeholder="Last Name" />
-          <input v-model.number="newStudent.score" placeholder="Score" type="number" />
-          <input v-model.number="newStudent.student_id" placeholder="Student ID" type="number" />
-        </div>
+    <!-- Student Input & Table -->
+    <div id="section-02">
+      <div class="form-container">
+        <input v-model="newStudent.fname" placeholder="First Name" />
+        <input v-model="newStudent.mname" placeholder="Middle Name" />
+        <input v-model="newStudent.lname" placeholder="Last Name" />
+        <input v-model.number="newStudent.score" placeholder="Score" type="number" />
+        <input v-model.number="newStudent.student_id" placeholder="Student ID" type="number" />
+        <button class="create-button button" @click="addStudent">Add Student</button>
+      </div>
 
         <div class="button-group">
           <button class="list-button button" @click="fetchStudents">Refresh Students</button>
-          <button class="create-button button" @click="addStudent">Add Student</button>
         </div>
 
         <table class="students-container" v-if="students.length">
@@ -73,10 +73,10 @@
     <!-- FOOTER -->
     <footer class="app-footer">
       <p>
-        View the github project on
+        View the project on
         <a href="https://github.com/Fearless-Badger/cs_416_project_2" target="_blank">Github</a>
         |
-        View the Docker image on
+        View the frontend Image on
         <a href="https://hub.docker.com/r/badger54/cs_416_project" target="_blank">Docker Hub</a>
       </p>
     </footer>
@@ -140,6 +140,7 @@ export default {
           this.fetchStudents();
           this.newStudent = { fname: '', mname: '', lname: '', score: null, student_id: null };
         }
+        this.fetchStudents()
       } catch (error) {
         console.error("Add error:", error);
         alert("Something went wrong. Try again.");
@@ -261,6 +262,12 @@ h1 {
   cursor: pointer;
 }
 
+.update-button,
+.delete-button {
+  margin: 4px 8px;
+}
+
+
 .students-container {
   width: 100%;
   max-width: 800px;
@@ -310,6 +317,15 @@ h1 {
   margin-top: 15px;
 }
 
+.delete-button{
+  background-color: rgb(201, 89, 89);
+  color: white;
+}
+
+.list-button {
+  margin-left: 16px;
+}
+
 /* Footer Styling */
 .app-footer {
   background-color: #2c3e50;
@@ -318,9 +334,10 @@ h1 {
   text-align: center;
 }
 .app-footer a {
-  color: #0000FF;
+  color: rgb(112, 155, 158);
   text-decoration: none;
   margin: 0 5px;
+  
 }
 .app-footer a:hover {
   text-decoration: underline;

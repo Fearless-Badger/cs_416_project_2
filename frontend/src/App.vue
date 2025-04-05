@@ -1,9 +1,7 @@
 <template>
   <div id="app">
-    <h1>📚 Class Management Interface</h1>
-
-
-    <h1>Class Management Interface</h1>
+    <main class="main-content">
+      <h1>📚 Class Management Interface</h1>
 
     <!-- Average Score -->
     <div id="section-01" v-if="students.length">
@@ -11,50 +9,50 @@
 
     </div>
 
-    <!-- Student Input & Table -->
-    <div id="section-02">
-      <div class="form-container">
-        <input v-model="newStudent.fname" placeholder="First Name" />
-        <input v-model="newStudent.mname" placeholder="Middle Name" />
-        <input v-model="newStudent.lname" placeholder="Last Name" />
-        <input v-model.number="newStudent.score" placeholder="Score" type="number" />
-        <input v-model.number="newStudent.student_id" placeholder="Student ID" type="number" />
-      </div>
+      <!-- Student Input & Table -->
+      <div id="section-02">
+        <div class="form-container">
+          <input v-model="newStudent.fname" placeholder="First Name" />
+          <input v-model="newStudent.mname" placeholder="Middle Name" />
+          <input v-model="newStudent.lname" placeholder="Last Name" />
+          <input v-model.number="newStudent.score" placeholder="Score" type="number" />
+          <input v-model.number="newStudent.student_id" placeholder="Student ID" type="number" />
+        </div>
 
-      <div class="button-group">
-        <button class="list-button button" @click="fetchStudents">Refresh Students</button>
-        <button class="create-button button" @click="addStudent">Add Student</button>
-      </div>
+        <div class="button-group">
+          <button class="list-button button" @click="fetchStudents">Refresh Students</button>
+          <button class="create-button button" @click="addStudent">Add Student</button>
+        </div>
 
-      <table class="students-container" v-if="students.length">
-        <thead>
-          <tr>
-            <th>First</th>
-            <th>Middle</th>
-            <th>Last</th>
-            <th>Score</th>
-            <th>ID</th>
-            <th colspan="2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="student in sortedStudents" :key="student.student_id">
-            <td>{{ student.fname }}</td>
-            <td>{{ student.mname }}</td>
-            <td>{{ student.lname }}</td>
-            <td>{{ student.score }}</td>
-            <td>{{ student.student_id }}</td>
-            <td><button @click="updateStudent(student)">✏️</button></td>
-            <td><button class="delete-button" @click="deleteStudent({ student_id: student.student_id })">🗑️</button></td>
-          </tr>
-        </tbody>
-      </table>
+        <table class="students-container" v-if="students.length">
+          <thead>
+            <tr>
+              <th>First</th>
+              <th>Middle</th>
+              <th>Last</th>
+              <th>Score</th>
+              <th>ID</th>
+              <th colspan="2">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="student in sortedStudents" :key="student.student_id">
+              <td>{{ student.fname }}</td>
+              <td>{{ student.mname }}</td>
+              <td>{{ student.lname }}</td>
+              <td>{{ student.score }}</td>
+              <td>{{ student.student_id }}</td>
+              <td><button @click="updateStudent(student)">✏️</button></td>
+              <td><button class="delete-button" @click="deleteStudent({ student_id: student.student_id })">🗑️</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <!-- Edit Modal -->
       <div v-if="showEditModal" class="modal-overlay">
         <div class="modal-content">
           <h2>Edit Student</h2>
-
           <label>First Name:</label>
           <input v-model="selectedStudent.fname" />
           <label>Middle Name:</label>
@@ -70,7 +68,18 @@
           </div>
         </div>
       </div>
-    </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <p>
+        View the github project on
+        <a href="https://github.com/Fearless-Badger/cs_416_project_2" target="_blank">Github</a>
+        |
+        View the Docker image on
+        <a href="https://hub.docker.com/r/badger54/cs_416_project" target="_blank">Docker Hub</a>
+      </p>
+    </footer>
   </div>
 </template>
 
@@ -198,10 +207,15 @@ body {
 }
 
 #app {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
   text-align: center;
-  color: #333;
-  margin: 20px;
 }
 
 h1 {
@@ -295,4 +309,21 @@ h1 {
   justify-content: space-between;
   margin-top: 15px;
 }
+
+/* Footer Styling */
+.app-footer {
+  background-color: #2c3e50;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+.app-footer a {
+  color: #0000FF;
+  text-decoration: none;
+  margin: 0 5px;
+}
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
 </style>

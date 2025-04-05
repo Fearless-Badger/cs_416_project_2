@@ -58,15 +58,17 @@ The backend is also being served hot, so any changes you make to the backend wil
 
 # Pushing to DockerHub
 
-Namespace for docker-hub repositories starts with your username, and ends with the repo name.
+Namespace for docker-hub repositories starts with the repository name, ending with a tag.
 
-You will get permission denied if you try to use my namespace, or if you are not logged in to dockerhub through the CLI.
+Verify that you correctly login, using YOUR Dockerhub username and password.
 
-1. Build the image, with YOUR namespace, not with mine. "badger54" is my namespace, you must use your own.
-    - Something like ```docker build -t <username>/cs_416_project:<first_last> .```
-
-2. Login to Dockerhub
+1. Login to Dockerhub, where <username> is YOUR Dockerhub username. Use your Dockerhub password when prompted.
     - ```docker login -u <username>```
 
+2. Build the image, using the correct repository name. Include your name in <first_last> for the tag.
+    - ```docker build -t badger54/cs_416_project:<first_last> .```
+
 3. Push to dockerhub repository
-    - ```docker push <username>/cs_416_project:<first_last>```
+    - ```docker push badger54/cs_416_project:<first_last>```
+    
+If successful, verify that your push appears in the repository. Visit 'My Profile' on Dockerhub and check your 'Contributed' tab to see repositories that are not yours. Your push will be under 'Tags'.

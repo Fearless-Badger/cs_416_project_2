@@ -3,30 +3,11 @@
     <main class="main-content">
       <h1>📚 Class Management Interface</h1>
 
-<<<<<<< HEAD
-      <!-- Average Score -->
-      <div id="section-01" v-if="students.length">
-        <h2 class="average-score">Average Score: {{ averageScore.toFixed(2) }}</h2>
-=======
-
-    <h1>Class Management Interface</h1>
-
     <!-- Average Score -->
     <div id="section-01" v-if="students.length">
       <h2 class="average-score">Average Score: {{ averageScore }}</h2>
 
     </div>
-
-    <!-- Student Input & Table -->
-    <div id="section-02">
-      <div class="form-container">
-        <input v-model="newStudent.fname" placeholder="First Name" />
-        <input v-model="newStudent.mname" placeholder="Middle Name" />
-        <input v-model="newStudent.lname" placeholder="Last Name" />
-        <input v-model.number="newStudent.score" placeholder="Score" type="number" />
-        <input v-model.number="newStudent.student_id" placeholder="Student ID" type="number" />
->>>>>>> origin
-      </div>
 
       <!-- Student Input & Table -->
       <div id="section-02">

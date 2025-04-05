@@ -93,8 +93,13 @@ export default {
   },
   computed: {
     sortedStudents() {
-      return [...this.students].sort((a, b) => a.fname.localeCompare(b.fname))
-    },
+      return [...this.students].sort((a, b) => { 
+      if (a.score !== b.score) {
+	return b.score - a.score;
+	}
+	return a.fname.localeCompare(b.fname);
+    });
+  },
     averageScore() { 
       if (!this.students.length) return 0;
       let total = 0;

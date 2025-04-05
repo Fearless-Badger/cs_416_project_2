@@ -5,7 +5,14 @@
 
     <!-- Average Score -->
     <div id="section-01" v-if="students.length">
-      <h2 class="average-score">Average Score: {{ averageScore }}</h2>
+      <h2 class="average-score">
+        Average Score: {{ averageScore }}
+        <span class="refresh-icon"
+              @click="fetchStudents"
+              title="Refresh student list">
+              🔄
+        </span>
+      </h2>
 
     </div>
 
@@ -20,9 +27,7 @@
         <button class="create-button button" @click="addStudent">Add Student</button>
       </div>
 
-        <div class="button-group">
-          <button class="list-button button" @click="fetchStudents">Refresh Students</button>
-        </div>
+        
 
         <table class="students-container" v-if="students.length">
           <thead>
@@ -136,7 +141,7 @@ export default {
         });
         const result = await response.json();
         alert(result.message);
-        if (result.result === "True") {
+        if (result.result === true) {
           this.fetchStudents();
           this.newStudent = { fname: '', mname: '', lname: '', score: null, student_id: null };
         }
@@ -265,6 +270,18 @@ h1 {
 .update-button,
 .delete-button {
   margin: 4px 8px;
+}
+
+.refresh-icon{
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.refresh-icon:hover {
+  transform: rotate(20deg);
+  color: #4CAF50;
 }
 
 

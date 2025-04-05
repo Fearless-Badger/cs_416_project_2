@@ -55,3 +55,18 @@ To interact with your API endpoints, visit ```http://localhost:8000/docs``` for 
 The backend is also being served hot, so any changes you make to the backend will re-compile instantly! Hit the backend directly with the interactive docs. All endpoints need to be tested either through the frontend or the interactive docs.
 
 <strong>To shut down</strong>, ctrl+c then run ```docker compose -f compose.dev.yaml down -v```
+
+# Pushing to DockerHub
+
+Namespace for docker-hub repositories starts with your username, and ends with the repo name.
+
+You will get permission denied if you try to use my namespace, or if you are not logged in to dockerhub through the CLI.
+
+1. Build the image, with YOUR namespace, not with mine. "badger54" is my namespace, you must use your own.
+    - Something like ```docker build -t <username>/cs_416_project:<first_last> .```
+
+2. Login to Dockerhub
+    - ```docker login -u <username>```
+
+3. Push to dockerhub repository
+    - ```docker push <username>/cs_416_project:<first_last>```

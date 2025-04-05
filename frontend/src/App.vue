@@ -3,9 +3,29 @@
     <main class="main-content">
       <h1>📚 Class Management Interface</h1>
 
+<<<<<<< HEAD
       <!-- Average Score -->
       <div id="section-01" v-if="students.length">
         <h2 class="average-score">Average Score: {{ averageScore.toFixed(2) }}</h2>
+=======
+
+    <h1>Class Management Interface</h1>
+
+    <!-- Average Score -->
+    <div id="section-01" v-if="students.length">
+      <h2 class="average-score">Average Score: {{ averageScore }}</h2>
+
+    </div>
+
+    <!-- Student Input & Table -->
+    <div id="section-02">
+      <div class="form-container">
+        <input v-model="newStudent.fname" placeholder="First Name" />
+        <input v-model="newStudent.mname" placeholder="Middle Name" />
+        <input v-model="newStudent.lname" placeholder="Last Name" />
+        <input v-model.number="newStudent.score" placeholder="Score" type="number" />
+        <input v-model.number="newStudent.student_id" placeholder="Student ID" type="number" />
+>>>>>>> origin
       </div>
 
       <!-- Student Input & Table -->
@@ -101,12 +121,20 @@ export default {
   },
   computed: {
     sortedStudents() {
-      return [...this.students].sort((a, b) => a.fname.localeCompare(b.fname))
-    },
-    averageScore() {
-      if (this.students.length === 0) return 0
-      const total = this.students.reduce((sum, s) => sum + s.score, 0)
-      return total / this.students.length
+      return [...this.students].sort((a, b) => { 
+      if (a.score !== b.score) {
+	return b.score - a.score;
+	}
+	return a.fname.localeCompare(b.fname);
+    });
+  },
+    averageScore() { 
+      if (!this.students.length) return 0;
+      let total = 0;
+      for(let student of this.students) {
+        total += student.score;
+      }
+      return (total / this.students.length).toFixed(2);
     }
   },
   methods: {
@@ -170,7 +198,7 @@ export default {
         });
         const result = await response.json();
         alert(result.message);
-        if (result.result === "True") {
+        if (result.result) {
           this.closeModal();
           this.fetchStudents();
         }
